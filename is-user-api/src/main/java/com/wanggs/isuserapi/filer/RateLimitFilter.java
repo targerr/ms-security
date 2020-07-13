@@ -18,6 +18,7 @@ import java.io.IOException;
  */
 @Component
 public class RateLimitFilter extends OncePerRequestFilter {
+    // 每秒发送一个令牌
     private RateLimiter rateLimiter = RateLimiter.create(1);
 
     /* (non-Javadoc)
@@ -25,6 +26,7 @@ public class RateLimitFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        // 尝试获取令牌
         if (rateLimiter.tryAcquire()) {
             filterChain.doFilter(request, response);
         } else {
