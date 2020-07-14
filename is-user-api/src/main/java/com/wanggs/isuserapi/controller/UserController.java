@@ -4,10 +4,12 @@ import com.wanggs.isuserapi.UserService;
 import com.wanggs.isuserapi.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -37,6 +39,19 @@ public class UserController {
     @RequestMapping("/findName")
     public User getName(@RequestParam(value = "name", defaultValue = "1") String name) {
         User user = userService.findByUsername(name);
+        return user;
+    }
+
+    @RequestMapping("/{id}")
+    public User getById(@PathVariable Long id, HttpServletRequest request) {
+        // 从 BasicAuthecationFilter 获取
+        User user = (User) request.getAttribute("user");
+        if (user == null ) {
+            throw new RuntimeException("身份信息认证失败!");
+        }
+        if ( !user.getId().equals(id)){
+            throw new RuntimeException("身份信息认证失败");
+        }
         return user;
     }
 }
