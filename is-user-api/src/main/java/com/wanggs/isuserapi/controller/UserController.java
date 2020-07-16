@@ -60,4 +60,13 @@ public class UserController {
     public String index() {
         return "index";
     }
+
+    @GetMapping("/login")
+    public User login(Long id, HttpServletRequest request) {
+        User user = userService.findById(id);
+        if (user != null) {
+            request.getSession(true).setAttribute("user", user);
+        }
+        return user;
+    }
 }

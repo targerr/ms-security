@@ -10,4 +10,5 @@ import com.wanggs.isuserapi.pojo.User;
 public interface UserService {
     public abstract User findByUsername(String name);
 
+    User findById(Long id);
 }
