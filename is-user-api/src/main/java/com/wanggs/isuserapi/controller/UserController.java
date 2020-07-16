@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -64,9 +66,25 @@ public class UserController {
     @GetMapping("/login")
     public User login(Long id, HttpServletRequest request) {
         User user = userService.findById(id);
-        if (user != null) {
-            request.getSession(true).setAttribute("user", user);
+        //若存在会话则返回该会话，否则返回NULL
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
         }
+        //request.getSession(true)：若存在会话则返回该会话，否则新建一个会话。
+        request.getSession(true).setAttribute("user", user);
         return user;
     }
+
+    @GetMapping("/getInfo")
+    public User getInfo(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        return user;
+    }
+
+    @GetMapping("/logout")
+    public void logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+    }
+
 }
