@@ -18,12 +18,19 @@ import java.io.IOException;
 /**
  * @Author: wgs
  * @Date: 2021/1/30
+ * <p>
+ * 处理httpbasic认证过滤器
+ * httpbasic:请求头，即Authorization:Basic 加密字符串
+ * 加密字符串为Base64编码的用户名:密码字符串
+ * Authorization  Basic bGh5OmxoeWFwcA==
+ * 在SpringBoot里，任何实现了Filter接口的类，SpringBoot会自动把它加到web应用的过滤器链里，只要声名为Component就行了
  */
 @Slf4j
 @Component
 public class BasicAuthecationFilter extends OncePerRequestFilter {
     @Autowired
     private UserService userService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
