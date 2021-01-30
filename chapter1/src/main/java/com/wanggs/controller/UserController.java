@@ -1,12 +1,17 @@
 package com.wanggs.controller;
 
+import com.wanggs.enums.ResultEnum;
+import com.wanggs.exception.ResultException;
 import com.wanggs.pojo.User;
 import com.wanggs.repository.UserRepository;
 import com.wanggs.service.UserService;
 import com.wanggs.vo.UserInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +27,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -54,8 +60,13 @@ public class UserController {
         return userInfos;
     }
 
-    @PostMapping
-    public UserInfo create(@RequestBody UserInfo user) {
+    @PostMapping("create")
+    public UserInfo create(@RequestBody @Validated UserInfo user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.error("参数不正确, createForm={}", user);
+            throw new ResultException(ResultEnum.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
+        }
+
         return userService.save(user);
     }
 
