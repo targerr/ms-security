@@ -1,5 +1,6 @@
 package com.wanggs.filter;
 
+import com.wanggs.constast.CookieConstant;
 import com.wanggs.pojo.User;
 import com.wanggs.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +50,7 @@ public class BasicAuthecationFilter extends OncePerRequestFilter {
 
             User user = userService.findByUsername(username);
             if (user != null && StringUtils.equals(password, user.getPassword())) {
-                request.setAttribute("user", user);
+                request.setAttribute(CookieConstant.TOKEN, user);
             }
         }
         filterChain.doFilter(request, response);

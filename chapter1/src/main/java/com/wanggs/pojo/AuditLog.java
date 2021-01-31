@@ -24,6 +24,7 @@ import lombok.Data;
  */
 @Entity
 @Data
+// 然后在需要做审计的类上面加上注解@EntityListeners(AuditingEntityListener.class) 把兼容器注入进来。
 @EntityListeners(AuditingEntityListener.class)
 public class AuditLog {
 

@@ -1,5 +1,6 @@
 package com.wanggs.controller;
 
+import com.wanggs.constast.CookieConstant;
 import com.wanggs.enums.ResultEnum;
 import com.wanggs.exception.ResultException;
 import com.wanggs.pojo.User;
@@ -97,7 +98,7 @@ public class UserController {
             session.invalidate();
         }
         //request.getSession(true)：若存在会话则返回该会话，否则新建一个会话。
-        request.getSession(true).setAttribute("user", user);
+        request.getSession(true).setAttribute(CookieConstant.TOKEN, user);
         return user;
     }
 
