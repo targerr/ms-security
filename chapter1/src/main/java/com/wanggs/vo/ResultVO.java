@@ -21,7 +21,7 @@ public class ResultVO<T> {
         return resultVO;
     }
 
-    public ResultVO error(Integer code,String msg){
+    public static ResultVO error(Integer code, String msg){
         ResultVO resultVO = new ResultVO();
         resultVO.setCode(code);
         resultVO.setMsg(msg);
