@@ -15,6 +15,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -51,8 +52,20 @@ public class BasicAuthecationFilter extends OncePerRequestFilter {
             User user = userService.findByUsername(username);
             if (user != null && StringUtils.equals(password, user.getPassword())) {
                 request.setAttribute(CookieConstant.TOKEN, user);
+                request.getSession().setAttribute("temp", "yes");
+            }
+            try {
+
+                filterChain.doFilter(request, response);
+
+            } finally {
+
+                HttpSession session = request.getSession();
+                if (session.getAttribute("temp") != null) {
+                    session.invalidate();
+                }
+
             }
         }
-        filterChain.doFilter(request, response);
     }
 }

@@ -104,7 +104,7 @@ public class UserController {
 
     @GetMapping("/getInfo")
     public UserInfo getInfo(HttpServletRequest request) {
-        UserInfo user = (UserInfo) request.getSession().getAttribute("user");
+        UserInfo user = (UserInfo) request.getSession().getAttribute(CookieConstant.TOKEN);
         return user;
     }
 
