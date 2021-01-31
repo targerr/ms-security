@@ -1,5 +1,6 @@
 package com.wanggs.security.order;
 
+import com.wanggs.security.server.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,14 +18,28 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/orders")
 @Slf4j
 public class OrderController {
-	
-//	private RestTemplate restTemplate = new RestTemplate();
-	
+
+	/**
+	 * 第一版本
+	 * @param info
+	 * @param username
+	 * @return
+	 */
+//	@PostMapping
+//	public OrderInfo create(@RequestBody OrderInfo info, @AuthenticationPrincipal String username) {
+//		log.info("user is " + username);
+//		return info;
+//	}
+
+	/**
+	 * 第二版本
+	 * @param info
+	 * @param user
+	 * @return
+	 */
 	@PostMapping
-	public OrderInfo create(@RequestBody OrderInfo info, @AuthenticationPrincipal String username) {
-		log.info("user is " + username);
-//		PriceInfo price = restTemplate.getForObject("http://localhost:9060/prices/"+info.getProductId(), PriceInfo.class);
-//		log.info("price is "+price.getPrice());
+	public OrderInfo create(@RequestBody OrderInfo info, @AuthenticationPrincipal User user) {
+		log.info("user is " + user);
 		return info;
 	}
 

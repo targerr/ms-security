@@ -53,7 +53,7 @@ public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
                 .withClient("orderServer")
                 .secret(passwordEncoder.encode("123456"))
                 //orderServer有哪些权限
-                .scopes("read","write")
+                .scopes("read")
                 //token的有效期
                 .accessTokenValiditySeconds(3600)
                 //资源服务器的id。

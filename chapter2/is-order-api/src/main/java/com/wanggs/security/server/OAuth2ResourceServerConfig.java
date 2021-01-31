@@ -6,6 +6,7 @@ package com.wanggs.security.server;
  */
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -31,9 +32,18 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
         /**
          * 进入order-api的所有请求，哪些要拦截，哪些要放过，在这里配置
          */
+//        http.authorizeRequests()
+//                .antMatchers("/hello")
+//                //放过/haha不拦截
+//                .permitAll()
+//                //其余所有请求都拦截
+//                .anyRequest().authenticated();
+
+
         http.authorizeRequests()
-                .antMatchers("/hello")
-                .permitAll() //放过/haha不拦截
-                .anyRequest().authenticated();//其余所有请求都拦截
+                // 定义post只有写权限
+                .antMatchers(HttpMethod.POST).access("#oauth2.hasScope('write')")
+                // 定义get请求只有读权限
+                .antMatchers(HttpMethod.GET).access("#oauth2.hasScope('read')");
     }
 }
