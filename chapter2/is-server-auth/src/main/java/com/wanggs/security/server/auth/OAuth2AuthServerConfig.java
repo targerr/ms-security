@@ -38,20 +38,28 @@ public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
         clients.inMemory()//配置在内存里，后面修改为数据库里
                 //~============== 注册【客户端应用】,使客户端应用能够访问认证服务器 ===========
                 .withClient("orderApp")
-                .secret(passwordEncoder.encode("123456")) //spring
-                .scopes("read","write") //orderApp有哪些权限
-                .accessTokenValiditySeconds(3600) //token的有效期
-                .resourceIds("order-server") //资源服务器的id。发给orderApp的token，能访问哪些资源服务器，可以多个
-                .authorizedGrantTypes("password")//授权方式，再给orderApp做授权的时候可以用哪种授权方式授权
+                .secret(passwordEncoder.encode("123456"))
+                //orderApp有哪些权限
+                .scopes("read","write")
+                //token的有效期
+                .accessTokenValiditySeconds(3600)
+                //资源服务器的id。发给orderApp的token，能访问哪些资源服务器，可以多个
+                .resourceIds("order-server")
+                //授权方式，再给orderApp做授权的时候可以用哪种授权方式授权
+                .authorizedGrantTypes("password")
                 //~=============客户端应用配置结束 =====================
                 .and()
                 //~============== 注册【资源服务器-订单服务】(因为订单服务需要来认证服务器验令牌),使订单服务也能够访问认证服务器 ===========
                 .withClient("orderServer")
-                .secret(passwordEncoder.encode("123456")) //spring
-                .scopes("read","write") //orderServer有哪些权限
-                .accessTokenValiditySeconds(3600) //token的有效期
-                .resourceIds("order-server") //资源服务器的id。
-                .authorizedGrantTypes("password");//授权方式，
+                .secret(passwordEncoder.encode("123456"))
+                //orderServer有哪些权限
+                .scopes("read","write")
+                //token的有效期
+                .accessTokenValiditySeconds(3600)
+                //资源服务器的id。
+                .resourceIds("order-server")
+                //授权方式，
+                .authorizedGrantTypes("password");
     }
 
     /**
@@ -75,7 +83,8 @@ public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         /**
          * 过来验令牌有效性的请求，不是谁都能验的，必须要是经过身份认证的。
-         * 所谓身份认证就是，必须携带clientId，clientSecret，否则随便一请求过来验token是不验的
+         * 所谓身份认证就是，必须携带clientId，clientSecret，或者是密码
+         * 否则随便一请求过来验token是不验的
          */
         security.checkTokenAccess("isAuthenticated()");
     }
