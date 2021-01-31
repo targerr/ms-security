@@ -5,6 +5,7 @@ import com.wanggs.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -25,14 +26,16 @@ import java.io.IOException;
  * Authorization  Basic bGh5OmxoeWFwcA==
  * 在SpringBoot里，任何实现了Filter接口的类，SpringBoot会自动把它加到web应用的过滤器链里，只要声名为Component就行了
  */
-@Slf4j
+@Order(2)
 @Component
+@Slf4j
 public class BasicAuthecationFilter extends OncePerRequestFilter {
     @Autowired
     private UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println(2);
         String authHeader = request.getHeader("Authorization");
         if (StringUtils.isNotBlank(authHeader)) {
 

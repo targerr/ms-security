@@ -24,27 +24,39 @@ import lombok.Data;
  */
 @Entity
 @Data
-//@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class)
 public class AuditLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    /**
+     * 创建时间
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdTime;
-
+    /**
+     * 修改时间
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date modifyTime;
-
+    /**
+     * http方法
+     */
     private String method;
-
+    /**
+     * 请求路径
+     */
     private String path;
-
+    /**
+     * http状态码
+     */
     private Integer status;
-
+    /**
+     * 请求用户名
+     */
     @CreatedBy
     private String username;
 
