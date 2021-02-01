@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.lambdaworks.crypto.SCryptUtil;
 
 /**
- * @author jojo
+ * @author wanggs
  *
  */
 @Service

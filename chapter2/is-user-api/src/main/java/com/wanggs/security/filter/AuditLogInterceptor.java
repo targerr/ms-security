@@ -14,7 +14,7 @@ import com.wanggs.security.log.AuditLog;
 import com.wanggs.security.log.AuditLogRepository;
 
 /**
- * @author jojo
+ * @author wanggs
  *
  */
 @Component

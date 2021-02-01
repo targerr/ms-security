@@ -14,7 +14,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.wanggs.security.user.UserInfo;
 
 /**
- * @author jojo
+ * @author wanggs
  *
  */
 @Component

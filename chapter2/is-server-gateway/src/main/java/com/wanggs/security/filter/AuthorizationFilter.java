@@ -15,24 +15,20 @@ import com.netflix.zuul.exception.ZuulException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author jojo
+ * @author wanggs
  *
  */
 @Slf4j
 @Component
 public class AuthorizationFilter extends ZuulFilter {
 
-	/* (non-Javadoc)
-	 * @see com.netflix.zuul.IZuulFilter#shouldFilter()
-	 */
+
 	@Override
 	public boolean shouldFilter() {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netflix.zuul.IZuulFilter#run()
-	 */
+
 	@Override
 	public Object run() throws ZuulException {
 		

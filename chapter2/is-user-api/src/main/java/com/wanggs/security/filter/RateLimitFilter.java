@@ -18,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.google.common.util.concurrent.RateLimiter;
 
 /**
- * @author jojo
+ * @author wanggs
  *
  */
 @Component

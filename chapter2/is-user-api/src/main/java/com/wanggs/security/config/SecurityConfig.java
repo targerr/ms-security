@@ -20,7 +20,7 @@ import com.wanggs.security.filter.AuditLogInterceptor;
 import com.wanggs.security.user.UserInfo;
 
 /**
- * @author jojo
+ * @author wanggs
  *
  */
 @Configuration

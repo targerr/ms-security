@@ -23,7 +23,7 @@ import com.wanggs.security.user.UserRepository;
 import com.lambdaworks.crypto.SCryptUtil;
 
 /**
- * @author jojo
+ * @author wanggs
  *
  */
 @Component

@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package com.wanggs.security.filter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +21,7 @@ import com.netflix.zuul.exception.ZuulException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author jojo
+ * @author wanggs
  *
  */
 @Slf4j
@@ -32,17 +30,13 @@ public class OAuthFilter extends ZuulFilter {
 	
 	private RestTemplate restTemplate = new RestTemplate();
 
-	/* (non-Javadoc)
-	 * @see com.netflix.zuul.IZuulFilter#shouldFilter()
-	 */
+
 	@Override
 	public boolean shouldFilter() {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.netflix.zuul.IZuulFilter#run()
-	 */
+
 	@Override
 	public Object run() throws ZuulException {
 		
@@ -86,10 +80,10 @@ public class OAuthFilter extends ZuulFilter {
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		headers.setBasicAuth("gateway", "123456");
 		
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
 		params.add("token", token);
 		
-		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
+		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 		
 		ResponseEntity<TokenInfo> response = restTemplate.exchange(oauthServiceUrl, HttpMethod.POST, entity, TokenInfo.class);
 		

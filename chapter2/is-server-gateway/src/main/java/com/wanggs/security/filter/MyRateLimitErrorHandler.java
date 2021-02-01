@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.config.repository.DefaultRateLimiterErrorHandler;
 
 /**
- * @author jojo
+ * @author wanggs
  *
  */
 @Component

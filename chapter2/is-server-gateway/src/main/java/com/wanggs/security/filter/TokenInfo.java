@@ -8,7 +8,7 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * @author jojo
+ * @author wanggs
  *
  */
 @Data

@@ -15,7 +15,7 @@ import org.springframework.beans.BeanUtils;
 import lombok.Data;
 
 /**
- * @author jojo
+ * @author wanggs
  *
  */
 @Entity
