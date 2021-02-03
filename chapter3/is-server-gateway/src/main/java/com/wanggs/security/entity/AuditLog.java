@@ -18,7 +18,6 @@ import java.util.Date;
  */
 @Entity
 @Data
-@EntityListeners(AuditingEntityListener.class)
 public class AuditLog {
 	
 	@Id

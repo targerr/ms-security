@@ -4,19 +4,44 @@ zuul:
       url:  http://localhost:9090
     order:  #order结尾的请求，都转发到http://localhost:9080 顶单服务
       url:  http://localhost:9080
-  sensitive-headers:  null  #设置敏感头设置为空，Authorization等请求头的请求，都往后转发
-
+  sensitive-headers: null #设置敏感头设置为空，Authorization等请求头的请求，都往后转发
+  ratelimit:
+    enabled: true
+    repository: REDIS
+    default-policy-list:
+     # 如下的配置就是说：每1秒内不能超过2个请求，2个请求时间加起来不能超过1秒(quota)
+      - limit: 2
+        quota: 1
+        refresh-interval: 10
+     # 根据什么控制流量，可以组合使用，如url、httpmethod组合，就会把 /orders的get和post请求分开处理
+        type:
+          - url
+          - httpmethod
+        #- user  #根据用户控制需要Security支持，（一般不用）
+        #- origin #根据客户端的ip控制
 spring:
   application:
-    name: auth-server
+    name: gateway
   datasource:
-    url: jdbc:mysql://localhost:3306/security?serverTimezone=UTC&characterEncoding=utf8&useSSL=true
+    url: jdbc:mysql://localhost:3306/security?serverTimezone=UTC&characterEncoding=utf8&characterSetResults=utf8&autoReconnect=true
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     generate-ddl: true
     show-sql: true
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    timeout: 3000
+    password: 123456
+    lettuce:
+      pool:
+        max-active: 200
+        max-idle: 20
+        min-idle: 5
+        max-wait: -1
 
 server:
   port: 9070

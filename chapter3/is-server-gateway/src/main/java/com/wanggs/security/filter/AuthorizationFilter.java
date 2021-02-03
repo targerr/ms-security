@@ -9,7 +9,7 @@ import com.netflix.zuul.exception.ZuulException;
 import com.wanggs.security.entity.AuditLog;
 import com.wanggs.security.entity.AuditLogRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @Component
 public class AuthorizationFilter extends ZuulFilter {
-    @Autowired
+    @Autowired(required = false)
     private AuditLogRepository auditLogRepository;
 
     @Override

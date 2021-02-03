@@ -5,7 +5,7 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
@@ -83,22 +83,22 @@ public class OAuthFilter extends ZuulFilter {
     private TokenInfo getTokenInfo(String authHeader) {
 
         //截取请求头里的bearer token，TODO：注意，Bearer是大写？还是小写？postman是大写
-        String token = StringUtils.substringAfter(authHeader,"Bearer ");
+        String token = StringUtils.substringAfter(authHeader, "Bearer ");
         //认证服务器验token地址 /oauth/check_token 是  spring .security.oauth2的验token端点
         String oauthServiceUrl = "http://localhost:9090/oauth/check_token";
 
         HttpHeaders headers = new HttpHeaders();//org.springframework.http.HttpHeaders
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);//不是json请求
         //网关的appId，appSecret，需要在数据库oauth_client_details注册
-        headers.setBasicAuth("gateway","123456");
+        headers.setBasicAuth("gateway", "123456");
 
-        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
-        params.add("token",token);
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("token", token);
 
-        HttpEntity<MultiValueMap<String,String>> entity = new HttpEntity<>(params,headers);
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
         ResponseEntity<TokenInfo> response = restTemplate.exchange(oauthServiceUrl, HttpMethod.POST, entity, TokenInfo.class);
 
-        log.info("token info : {}",response.getBody().toString());
+        log.info("token info : {}", response.getBody().toString());
 
         return response.getBody();//返回tokenInfo
     }

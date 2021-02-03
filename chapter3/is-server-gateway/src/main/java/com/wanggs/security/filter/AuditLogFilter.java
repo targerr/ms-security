@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class AuditLogFilter extends ZuulFilter {
 
-    @Autowired
+    @Autowired(required = false)
     private AuditLogRepository auditLogRepository;
 	@Override
 	public boolean shouldFilter() {
