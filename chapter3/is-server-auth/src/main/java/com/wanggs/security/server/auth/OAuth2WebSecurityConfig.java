@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.wanggs.security.server.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,42 +8,40 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //使安全配置生效
 public class OAuth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
 
-	/**
-	 * AuthenticationManagerBuilder 是用来构建  AuthenticationManager（处理登录操作）的
-	 * 需要两个东西：userDetailsService  、passwordEncoder
-	 * @param auth
-	 * @throws Exception
-	 */
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService) //获取用户信息
-				.passwordEncoder(passwordEncoder); //比对密码
-	}
+    /**
+     * AuthenticationManagerBuilder 是用来构建  AuthenticationManager（处理登录操作）的
+     * 需要两个东西：userDetailsService  、passwordEncoder
+     * @param auth
+     * @throws Exception
+     */
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService) //获取用户信息
+                .passwordEncoder(passwordEncoder); //比对密码
+    }
 
-	/**
-	 * 把AuthenticationManager暴露为bean
-	 * @return
-	 * @throws Exception
-	 */
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
-
+    /**
+     * 把AuthenticationManager暴露为bean
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 }

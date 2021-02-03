@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.wanggs.security.log;
+package com.wanggs.security.entity;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
