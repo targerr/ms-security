@@ -36,9 +36,12 @@ public class OrderController {
 
 
     @GetMapping("/{id}")
-    public OrderInfo getInfo(@PathVariable Long id) {
-        log.info("orderId is " + id);
-        return new OrderInfo();
+    public OrderInfo getInfo(@PathVariable Long id ,@RequestHeader String username){
+        log.info("getInfo: id is "+id +" , and username is "+username);
+        OrderInfo info = new OrderInfo();
+        info.setId(id);
+        info.setProductId(id*10);
+        return info;
     }
 
 }
