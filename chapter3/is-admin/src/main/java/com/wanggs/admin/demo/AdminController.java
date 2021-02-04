@@ -75,7 +75,7 @@ public class AdminController {
      * @throws IOException
      */
     @GetMapping("/toAuthLogin")
-    public void toAuthLogin(HttpServletResponse response) throws IOException {
+    public void toAuthLogin(HttpServletResponse response) throws IOException{
 
         String redirectUrl = "http://auth.nb.com:9090/oauth/authorize?"
                 +"client_id=admin&"
