@@ -59,7 +59,8 @@ public class AuthorizationFilter extends ZuulFilter {
                     handleError(403, requestContext);
                 }
                 //走到这里说明权限也通过了，将用户信息放到请求头，供其他微服务获取
-                requestContext.addZuulRequestHeader("username", tokenInfo.getUser_name());
+                //这里甚至可以传一个对象的json，然后在微服务里用@RequestHeader注解就能获取
+                requestContext.addZuulRequestHeader("username",tokenInfo.getUser_name());
             } else {
                 //不是以 /token开头的，才拦截，否则登录请求也就被拦截了。这里放过
                 if (!StringUtils.startsWith(request.getRequestURI(), "/token")) {
