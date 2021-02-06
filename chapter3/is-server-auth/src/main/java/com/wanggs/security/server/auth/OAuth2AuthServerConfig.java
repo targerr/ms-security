@@ -15,6 +15,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import javax.sql.DataSource;
@@ -23,7 +25,7 @@ import javax.sql.DataSource;
  *
  * 认证服务器
  **/
-@EnableRedisHttpSession //spring session
+@EnableRedisHttpSession //启用spring session redis
 @Configuration  //这是一个配置类
 @EnableAuthorizationServer //当前应用是一个认证服务器
 public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter {//AuthorizationServerConfigurerAdapter：认证服务器适配器
@@ -35,18 +37,30 @@ public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
     @Qualifier("dataSource")
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     //tokenStore是进行存取token的接口，默认内存的实现还有redis，jdbc，jwt的实现(idea ctrl+H可看类关系)
-    //这里配置用jdbc进行存取token
+
     @Bean
     public TokenStore tokenStore(){
-        return new JdbcTokenStore(dataSource);
+        //return new JdbcTokenStore(dataSource);//这里配置用jdbc进行存取token
+        return new JwtTokenStore(jwtTokenEnhancer());//jwt存取token
+    }
+
+
+    private JwtAccessTokenConverter jwtTokenEnhancer() {
+        /**
+         * 对jwt进行签名的key，jwt是明文，签名防篡改。
+         * 接收token的人需要用同样的key验签名，需要把这个key通过服务暴漏出去，使用服务的人才能拿到key
+         */
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey("lihaoyang");
+        return converter;
     }
 
     /**
@@ -102,7 +116,9 @@ public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
         endpoints
                 //这里指定userDetailsService是专门给refresh_token用的，其他的四种授权模式不需要这个
                 .userDetailsService(userDetailsService)
+
                 .tokenStore(tokenStore()) //告诉服务器要用自定义的tokenStore里去存取token
+                .tokenEnhancer(jwtTokenEnhancer()) //加入jwt需要用到
                 .authenticationManager(authenticationManager);
     }
 
@@ -114,10 +130,17 @@ public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        /**
-         * 过来验令牌有效性的请求，不是谁都能验的，必须要是经过身份认证的。
-         * 所谓身份认证就是，必须携带clientId，clientSecret，否则随便一请求过来验token是不验的
-         */
-        security.checkTokenAccess("isAuthenticated()");
+
+        security
+                /**
+                 * 暴漏验token的服务，过来验令牌有效性的请求，不是谁都能验的，只有经过身份认证的请求才能调。
+                 * 所谓身份认证就是，必须携带clientId，clientSecret，否则随便一请求过来验token是不验的
+                 */
+                .checkTokenAccess("isAuthenticated()")
+                /**
+                 * 暴漏获取jwt签名key的服务，只有经过身份认证的请求才能调（同上）
+                 * 上边 tokenStore里的signKey
+                 */
+                .tokenKeyAccess("isAuthenticated()");
     }
 }
