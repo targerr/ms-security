@@ -8,9 +8,7 @@
     <artifactId>chapter3</artifactId>
     <version>1.0-SNAPSHOT</version>
 <modules>
-    <module>is-user-api</module>
     <module>is-server-gateway</module>
-    <module>is-price-api</module>
     <module>is-server-auth</module>
     <module>is-order-api</module>
 </modules>

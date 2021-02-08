@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +18,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import javax.sql.DataSource;
@@ -58,8 +60,14 @@ public class OAuth2AuthServerConfig extends AuthorizationServerConfigurerAdapter
          * 对jwt进行签名的key，jwt是明文，签名防篡改。
          * 接收token的人需要用同样的key验签名，需要把这个key通过服务暴漏出去，使用服务的人才能拿到key
          */
+//        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+//        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jojo.key"), "123456".toCharArray());
+//        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("jojo"));
+//        return converter;
+
+
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("lihaoyang");
+        converter.setVerifierKey("123456");
         return converter;
     }
 

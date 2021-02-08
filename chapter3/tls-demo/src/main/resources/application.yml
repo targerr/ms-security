@@ -1,0 +1,7 @@
+server:
+  port: 8083
+
+  ssl:
+    key-store: classpath:jojo.key
+    key-store-password: 123456
+    key-password: 123456
