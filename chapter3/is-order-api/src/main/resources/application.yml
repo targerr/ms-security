@@ -8,8 +8,8 @@ security:
   oauth2:
     resource:
       jwt:
-        key-uri:  http://auth.nb.com:9090/oauth/token_key  #获取解析jwt，验签名key的路径
-#        key-value: 123456  #启动报错 https://www.pianshen.com/article/2909383808/
+        key-uri: http://auth.nb.com:9090/oauth/token_key
+        key-value: 123456
     client:
-      client-id:  orderService #获取验签key需要身份认证，这里是网关的clientId
-      client-secret:  123456  #获取验签key需要身份认证，这里是网关的secret
+      client-id: orderService
+      client-secret: 123456

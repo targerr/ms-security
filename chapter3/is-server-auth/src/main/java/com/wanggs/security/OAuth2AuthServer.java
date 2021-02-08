@@ -17,9 +17,9 @@ public class OAuth2AuthServer {
         SpringApplication.run(OAuth2AuthServer.class, args);
     }
 
-    @Bean
-	public BCryptPasswordEncoder passwordEncoder(){
-    	return new BCryptPasswordEncoder();
-	}
+//    @Bean
+//	public BCryptPasswordEncoder passwordEncoder(){
+//    	return new BCryptPasswordEncoder();
+//	}
 
 }

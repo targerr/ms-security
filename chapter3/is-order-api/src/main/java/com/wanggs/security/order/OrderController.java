@@ -1,6 +1,10 @@
 package com.wanggs.security.order;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -36,7 +40,7 @@ public class OrderController {
 
 
     @GetMapping("/{id}")
-    public OrderInfo getInfo(@PathVariable Long id ,@RequestHeader String username){
+    public OrderInfo getInfo(@PathVariable Long id ,@AuthenticationPrincipal String username){
         log.info("getInfo: id is "+id +" , and username is "+username);
         OrderInfo info = new OrderInfo();
         info.setId(id);
