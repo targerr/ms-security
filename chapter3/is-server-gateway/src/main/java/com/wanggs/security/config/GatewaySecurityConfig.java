@@ -2,6 +2,7 @@ package com.wanggs.security.config;
 
 import com.wanggs.security.GatewayAccessDeniedHandler;
 import com.wanggs.security.GatewayAuthenticationEntryPoint;
+import com.wanggs.security.GatewayRateLimitFilter;
 import com.wanggs.security.GatewayWebSecurityExpressionHandler;
 import com.wanggs.security.entity.AuditLogRepository;
 import com.wanggs.security.filter.GatewayAuditLogFilter;
@@ -45,7 +46,8 @@ public class GatewaySecurityConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http
+        http    // 限流过滤器, 加载SpringSecurity过滤链的第一个过滤前
+                .addFilterBefore(new GatewayRateLimitFilter(), SecurityContextPersistenceFilter.class)
                 //可以指定过滤器位置，加载授权过滤器前面
                 //授权过滤器里，会抛出异常 401或403，这两个异常抛出来后都会由ExceptionTranslationFilter来处理，所以加在这里
 //                .addFilterBefore(new GatewayRateLimitFilter(), SecurityContextPersistenceFilter.class)
