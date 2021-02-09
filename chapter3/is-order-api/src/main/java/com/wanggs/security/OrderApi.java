@@ -5,12 +5,14 @@ package com.wanggs.security;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 
 //@Configuration
 @SpringBootApplication
 @EnableResourceServer//作为资源服务器存在
+@EnableGlobalMethodSecurity(prePostEnabled = true)//启用权限表达式
 public class OrderApi {
 
 	//声名OAuth2RestTemplate

@@ -33,8 +33,11 @@ public class OrderController {
      * @return
      */
     @PostMapping
-    public OrderInfo create(@RequestBody OrderInfo info, @RequestHeader String username) {
-        log.info("user is " + username);
+    //注解生效需在启动类配置@EnableGlobalMethodSecurity(prePostEnabled = true)
+//    @PreAuthorize("#oauth2.hasScope('write')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public OrderInfo create(@RequestBody OrderInfo info ,@AuthenticationPrincipal String username) {
+        log.info("获取到username = {}",username);
         return info;
     }
 
